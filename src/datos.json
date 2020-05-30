@@ -1,3 +1,5 @@
 {
-   "mensaje" : ""
+   "dato" : "",
+   "operacion" : "",
+   "tipo" : ""
 }

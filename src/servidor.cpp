@@ -15,7 +15,9 @@
 #include <fcntl.h>
 #include <fstream>
 #include <jsoncpp/json/json.h>
-#include <jsoncpp/json/writer.h>                                     
+#include <jsoncpp/json/writer.h> 
+#include "singleton_Garbage_Collector.h"
+#include "singleton_Garbage_Collector.cpp"                                    
 
                                        
 
@@ -27,9 +29,13 @@ using namespace std;
 
 int strf(char **rbuf, const char *path);
 string tipo;
+int DATO;
+string Operacion; 
 string dato;
+singleton_Garbage_Collector garbage = singleton_Garbage_Collector().Instancia();
 void read();
 void write(string sms);
+
 
 //Server side
 int main(void)
@@ -69,7 +75,6 @@ int main(void)
     cout << "Coneccion establecida con el cliente" << endl;
     struct timeval start1, end1;
     gettimeofday(&start1, NULL);
-    int bytesRead, bytesWritten = 0;
     while(1)
     {
     int len;
@@ -87,7 +92,13 @@ int main(void)
         
      recv(newSd, pbuf, len, 0);
 
+     string sms_recv = pbuf;
+
      outfile.write(pbuf, len);
+     outfile.close();
+
+
+     //write(sms_recv);
      delete [] pbuf;
      read();
      cout <<  tipo << endl;
@@ -124,7 +135,6 @@ int len;
 
   
     *rbuf = new char [len]; // Variable que almacena informacion del json
-
     is.read (*rbuf, len);   // Obtener datos del json
     is.close();
 
@@ -136,13 +146,15 @@ void read(){
     Json::Value read_obj;       // Variable para leer json
     Json::Reader reader;
     reader.parse(ifs, read_obj);    //Leer json
-    tipo = read_obj["mensaje"].asString();  // Obtener valor del json
-   
+    tipo = read_obj["tipo"].asString();  // Obtener valor del json
+    Operacion = read_obj["operacion"].asString();  // Obtener valor del json
+    DATO = read_obj["dato"].asInt();
 }
-
 void write(string sms){
     Json::Value obj;    // Dato del json a sobreescribir
-    obj["mensaje"]= sms;
+    obj["tipo"]= sms; 
+    obj["operacion"]= "";
+    obj["dato"]= "";
     Json::StyledWriter SW ;
     ofstream OS;
     OS.open("datosServer.json"); // Abrir archivo json
@@ -150,4 +162,13 @@ void write(string sms){
     OS.close(); // Cerrar archivo
 }
 
+void operacion(string operacion, int ID, int dato){
+    if(operacion == "guardar"){
+        garbage.agregar_direccion(dato);
+    }else if(operacion == "obtener"){
+        garbage.obtener(ID);
+    }else if(operacion == "borrar"){
+        garbage.Borrar_Direccion(ID);
+    }
+}
 

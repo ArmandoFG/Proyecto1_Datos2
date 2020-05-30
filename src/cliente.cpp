@@ -76,6 +76,9 @@ int main(void)
         recv(client, rbuf, len2, 0);  // Recibir datos del json  
 
         outfile.write(rbuf, len2);
+        outfile.close();
+        string sms_recv = rbuf;
+        //write(sms_recv);
         read(); // Leer json
         cout << tipo;
     }
@@ -113,7 +116,7 @@ void read(){
     Json::Value read_obj;   // Variable para leer json
     Json::Reader reader;
     reader.parse(ifs, read_obj);    //Leer json
-    tipo = read_obj["mensaje"].asString();  // Obtener valor del json
+    tipo = read_obj["tipo"].asString();  // Obtener valor del json
    
 }
 
@@ -124,7 +127,9 @@ void read(){
 
 void write(string sms){
     Json::Value obj;   // Dato del json a sobreescribir
-    obj["mensaje"]= sms; 
+    obj["tipo"]= sms; 
+    obj["operacion"]= "";
+    obj["dato"]= "";
     Json::StyledWriter SW ;
     ofstream OS;
     OS.open("datos.json");  // Abrir archivo json
