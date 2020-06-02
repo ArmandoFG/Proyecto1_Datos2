@@ -23,8 +23,11 @@ using namespace std;
 int strf(char **pbuf, const char *path);
 string tipo;
 string dato;
+string Operacion; 
+int DATO;
 void read();
-void write(string sms);
+void write(string tipo, string operacion, string dato);
+void menu();
 
 int main(void)
 {
@@ -52,11 +55,55 @@ int main(void)
 
     while(1)
     {
-        cout << "> ";
-        char *pbuf; //Datos del json del cliente
-        string mensaje; 
-        cin >> mensaje;
-        write(mensaje);
+        //cout << "> ";
+        //char *pbuf; //Datos del json del cliente
+        //string mensaje; 
+        //cin >> mensaje;
+        //write(mensaje);
+    int Opcion = 0;
+        do
+            {
+                menu();
+                cin>>Opcion;
+
+    switch (Opcion) {
+
+    case 1:
+
+        cout<< "Ingrese dato a ingresar: ";
+        cin>>dato;
+        Operacion = "guardar";
+        tipo = "Interger";
+        break;
+
+    case 2:
+
+        cout<<"Ingrese id para obtener dato: ";
+        cin>>dato;
+        Operacion = "obtener";
+        tipo = "";
+        break;
+
+    case 3:
+        cout<<"Ingrese id para borrar dato ";
+        cin>>dato;
+        Operacion = "borrar";
+        tipo = "";
+        
+        break;
+    case 4:
+        cout<<"Ingrese contraseña del server: ";
+        cin>>dato;
+        Operacion = "verificar";
+        tipo = "string";
+        
+        break;    
+
+
+
+    }
+      char *pbuf; //Datos del json del cliente
+        write(tipo, Operacion, dato);
         int len = strf(&pbuf, "datos.json");
         send(client, reinterpret_cast<char*>(&len), sizeof len , 0); // Enviar datos al server
 
@@ -78,16 +125,21 @@ int main(void)
         outfile.write(rbuf, len2);
         outfile.close();
         string sms_recv = rbuf;
-        //write(sms_recv);
         read(); // Leer json
-        cout << tipo;
+        cout << dato;
+        
     }
+
+    while(Opcion != 7);{
+
+    }
+      
     close(client);  // Cerrar socket del cliente
     cout << "Coneccion cerrada" << endl;
     return 0;
 
          
-       
+    }   
 }
 
 int strf(char **pbuf, const char *path){
@@ -116,7 +168,10 @@ void read(){
     Json::Value read_obj;   // Variable para leer json
     Json::Reader reader;
     reader.parse(ifs, read_obj);    //Leer json
-    tipo = read_obj["tipo"].asString();  // Obtener valor del json
+    DATO = stoi(read_obj["dato"].asString());  // Obtener valor del json
+    dato = read_obj["dato"].asString();
+    
+
    
 }
 
@@ -125,14 +180,24 @@ void read(){
  *  
  */
 
-void write(string sms){
+void write(string tipo, string operacion, string dato){
     Json::Value obj;   // Dato del json a sobreescribir
-    obj["tipo"]= sms; 
-    obj["operacion"]= "";
-    obj["dato"]= "";
+    obj["tipo"]= tipo; 
+    obj["operacion"]= operacion;
+    obj["dato"]= dato;
     Json::StyledWriter SW ;
     ofstream OS;
     OS.open("datos.json");  // Abrir archivo json
     OS << SW.write(obj);  // Escribir nuevos datos al json
     OS.close();     // Cerrar archivo
+}
+
+
+
+void menu(){
+    cout<< "1) Agregar \n"
+           "2) Obtener \n"
+           "3) Salir \n"
+           "4) Verificar conexion \n";
+
 }

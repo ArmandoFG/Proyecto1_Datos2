@@ -1,29 +1,29 @@
 #include <iostream>
 #include </home/armando/Project/src/singleton_Garbage_Collector.h>
 
+
+
 using namespace std;
+
+
 struct Dir_VsPointer{
 
-            int ID;//Puntero del id
+            int* ID = new int[10];//Puntero del id
             struct Dir_VsPointer *sgte;  //Puntero hacia el id siguiente
             struct Dir_VsPointer *ant;//puntero hacia el anterior id
-            int Direccion;
+            int* Direccion = new int[10];
             };
 
 typedef struct Dir_VsPointer *Tnodo;
-bool first = true;
-Tnodo Direcciones;
-int IDent = 0;
 
-singleton_Garbage_Collector::singleton_Garbage_Collector(){
-
-};
-//Lista enlazada para almacenar los punteros
-
-
+Tnodo Direcciones;  // Puntero que referencia a la lista enlazada
 
 
 int ID_Generar();   //Función para generar ID
+int ID;
+singleton_Garbage_Collector::singleton_Garbage_Collector()
+{
+}
 
 
 
@@ -31,17 +31,15 @@ void singleton_Garbage_Collector::agregar_direccion(int dir){
     Tnodo temporal, temporal2,nuevo= new struct Dir_VsPointer;  //3 punteros auxiliares
     nuevo->sgte = NULL;
     nuevo->ant = NULL;
-    nuevo->ID = ID_Generar();  //Se le asigna el ID al nuevo dato
-    nuevo->Direccion = dir;    //Direccion de memoria del dato
-    if((first = true)){
-        Direcciones = nuevo;
-        first = false;
-        //Revisa si es el primer dato que se ingresa
+    *nuevo->ID = ID_Generar();  //Se le asigna el ID al nuevo dato
+    *nuevo->Direccion = dir;    //Direccion de memoria del dato
+    if(Direcciones == NULL){
+        Direcciones = nuevo;    //Revisa si es el primer dato que se ingresa
     }
 
 else{
     temporal = Direcciones; //Se copia el puntero de las direcciones en un temporal para recorrerlo en un while
-    while(temporal->sgte!=NULL){
+    while(temporal->sgte != NULL){
         temporal = temporal->sgte;  //Cuando llega a null almacena el dato nuevo
     }
     temporal->sgte = nuevo;         //Se le asigna el dato anterior al nuevo dato
@@ -53,23 +51,34 @@ else{
 
 int singleton_Garbage_Collector::ID_Generar(){
 
-    IDent++;
-    return IDent;
+    ID++;
+    return ID;
 
 }
 
-void singleton_Garbage_Collector::Borrar_Direccion(int ID){
+void singleton_Garbage_Collector::Borrar_Direccion(int DIR){
 
-    Tnodo temporal, temporal2, temporal3;
+     Tnodo temporal, temporal2, temporal3;
     temporal = Direcciones;
-    while(temporal->ID != ID){
+    while(*temporal->ID != DIR){
         temporal = temporal->sgte;
     }
     temporal2 = temporal->ant;
     temporal3 = temporal->sgte;
 
-    temporal2->sgte = temporal3;
-    temporal3->ant = temporal2;
+    if(temporal->sgte == NULL && temporal->ant == NULL){
+        temporal = NULL;
+    }else if(temporal->sgte != NULL && temporal->ant == NULL){
+        temporal3->ant = NULL;
+        temporal = NULL;
+        Direcciones = temporal3;
+    }
+    else if(temporal->sgte == NULL && temporal->ant != NULL){
+        temporal2->sgte = NULL;
+    }else{
+        temporal2->sgte = temporal3;
+        temporal3->ant = temporal2;
+    }
 
 
 }
@@ -87,11 +96,11 @@ int singleton_Garbage_Collector::obtener(int ID){
     Tnodo temporal;
     int iD = ID;
     temporal = Direcciones;
-    while(temporal->ID != iD){
-        cout<<temporal->Direccion<<" : "<<temporal->ID<<endl;
+    int valor = *temporal->ID;
+    while(*temporal->ID != iD){
         temporal = temporal->sgte;
 
 }
-    int resultado = temporal->Direccion;
+    int resultado = *temporal->Direccion;
     return resultado;
 }

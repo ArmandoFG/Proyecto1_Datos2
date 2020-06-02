@@ -18,7 +18,7 @@
 #include <jsoncpp/json/writer.h> 
 #include "singleton_Garbage_Collector.h"
 #include "singleton_Garbage_Collector.cpp"                                    
-
+#include <sstream>
                                        
 
 //sudo apt-get install libjsoncpp-dev
@@ -32,9 +32,12 @@ string tipo;
 int DATO;
 string Operacion; 
 string dato;
-singleton_Garbage_Collector garbage = singleton_Garbage_Collector().Instancia();
+singleton_Garbage_Collector* garbage = &singleton_Garbage_Collector().Instancia();
 void read();
-void write(string sms);
+void write(string Tipo, string Oper, string dato);
+void operacion(string operacion, int dato);
+string password = "barriga";
+bool verificar = false;
 
 
 //Server side
@@ -96,26 +99,22 @@ int main(void)
 
      outfile.write(pbuf, len);
      outfile.close();
-
-
-     //write(sms_recv);
      delete [] pbuf;
      read();
-     cout <<  tipo << endl;
-     cout << "> ";
-
+     operacion(Operacion, DATO);
+     write(dato, dato, dato);
+     char *rbuf;
+     int len2 = strf(&rbuf, "datosServer.json");
+     send(newSd, reinterpret_cast<char*>(&len2), sizeof len2 , 0);
+     send(newSd, rbuf, len2, 0);
      
-         
-        char *rbuf;
-        cin >> mensaje;
-        write(mensaje);
-        int len2 = strf(&rbuf, "datosServer.json");
-        send(newSd, reinterpret_cast<char*>(&len2), sizeof len2 , 0);
-        send(newSd, rbuf, len2, 0);
+
+
     }
     close(newSd);
-    close(serverSd);
+    //close(serverSd);
     cout << "Coneccion cerrada" << endl;
+    verificar = false;
     return 0;
   
 
@@ -148,13 +147,17 @@ void read(){
     reader.parse(ifs, read_obj);    //Leer json
     tipo = read_obj["tipo"].asString();  // Obtener valor del json
     Operacion = read_obj["operacion"].asString();  // Obtener valor del json
-    DATO = read_obj["dato"].asInt();
+    if(tipo != "string"){
+        DATO = stoi(read_obj["dato"].asString()); 
+
+    }
+    dato = read_obj["dato"].asString();
 }
-void write(string sms){
+void write(string Tipo, string Oper, string dato){
     Json::Value obj;    // Dato del json a sobreescribir
-    obj["tipo"]= sms; 
-    obj["operacion"]= "";
-    obj["dato"]= "";
+    obj["tipo"]= Tipo; 
+    obj["operacion"]= Oper;
+    obj["dato"]= dato;
     Json::StyledWriter SW ;
     ofstream OS;
     OS.open("datosServer.json"); // Abrir archivo json
@@ -162,13 +165,31 @@ void write(string sms){
     OS.close(); // Cerrar archivo
 }
 
-void operacion(string operacion, int ID, int dato){
-    if(operacion == "guardar"){
-        garbage.agregar_direccion(dato);
-    }else if(operacion == "obtener"){
-        garbage.obtener(ID);
-    }else if(operacion == "borrar"){
-        garbage.Borrar_Direccion(ID);
+void operacion(string operacion, int num){
+    if(operacion == "guardar" && verificar == true){
+        garbage->agregar_direccion(num);
+        dato = "1";
+    }else if(operacion == "obtener" && verificar == true){
+        DATO = garbage->obtener(num);
+        stringstream ss;
+        ss << DATO;
+        dato = ss.str();
+    }else if(operacion == "borrar" && verificar == true){
+        garbage->Borrar_Direccion(num);
+        dato = "2";
+    }else if(operacion == "verificar"){
+        if(dato == password){
+            verificar = true;
+            dato = "6";
+        }else{
+            dato = "5";
+        }
+    }else{
+        dato = "5";
     }
 }
+
+
+
+
 
