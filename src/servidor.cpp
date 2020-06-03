@@ -19,6 +19,8 @@
 #include "singleton_Garbage_Collector.h"
 #include "singleton_Garbage_Collector.cpp"                                    
 #include <sstream>
+#include "md5.h"
+#include "md5.cpp" 
                                        
 
 //sudo apt-get install libjsoncpp-dev
@@ -36,15 +38,15 @@ singleton_Garbage_Collector* garbage = &singleton_Garbage_Collector().Instancia(
 void read();
 void write(string Tipo, string Oper, string dato);
 void operacion(string operacion, int dato);
-string password = "barriga";
+string password = md5("barriga");
 bool verificar = false;
+int newSd;
 
 
 //Server side
 int main(void)
 {
     int puerto = 12345;
-    char mensaje[1500];
     sockaddr_in servAddr;
     bzero((char*)&servAddr, sizeof(servAddr));
     servAddr.sin_family = AF_INET;
@@ -69,7 +71,7 @@ int main(void)
     sockaddr_in newSockAddr;
     socklen_t newSockAddrSize = sizeof(newSockAddr);
 
-    int newSd = accept(serverSd, (sockaddr *)&newSockAddr, &newSockAddrSize);
+    newSd = accept(serverSd, (sockaddr *)&newSockAddr, &newSockAddrSize);
     if(newSd < 0)
     {
         cerr << "Error en la solicitud del cliente" << endl;
@@ -80,6 +82,7 @@ int main(void)
     gettimeofday(&start1, NULL);
     while(1)
     {
+ 
     int len;
     char *pbuf;
 
@@ -102,17 +105,17 @@ int main(void)
      delete [] pbuf;
      read();
      operacion(Operacion, DATO);
-     write(dato, dato, dato);
+     write(tipo, dato, dato);
      char *rbuf;
      int len2 = strf(&rbuf, "datosServer.json");
      send(newSd, reinterpret_cast<char*>(&len2), sizeof len2 , 0);
      send(newSd, rbuf, len2, 0);
      
-
+    
 
     }
     close(newSd);
-    //close(serverSd);
+    close(serverSd);
     cout << "Coneccion cerrada" << endl;
     verificar = false;
     return 0;
@@ -168,24 +171,31 @@ void write(string Tipo, string Oper, string dato){
 void operacion(string operacion, int num){
     if(operacion == "guardar" && verificar == true){
         garbage->agregar_direccion(num);
-        dato = "1";
+        dato = "Dato guardado";
+        tipo = "string";
     }else if(operacion == "obtener" && verificar == true){
         DATO = garbage->obtener(num);
         stringstream ss;
         ss << DATO;
         dato = ss.str();
+        tipo = "Integer";
+        
     }else if(operacion == "borrar" && verificar == true){
         garbage->Borrar_Direccion(num);
-        dato = "2";
+        dato = "Dato borrado";
+        tipo = "string";
     }else if(operacion == "verificar"){
         if(dato == password){
             verificar = true;
-            dato = "6";
+            dato = "Comunicacion correcta";
+            tipo = "string";
         }else{
-            dato = "5";
+            tipo = "string";
+            dato = "Error al iniciar comunicacion, contraseña incorrecta";
         }
     }else{
-        dato = "5";
+        dato = "Ingresar contraseña del server";
+        tipo = "string";
     }
 }
 

@@ -16,50 +16,81 @@
 #include <fstream>
 #include <jansson.h>
 #include <jsoncpp/json/json.h>
-#include <jsoncpp/json/writer.h>        
+#include <jsoncpp/json/writer.h>   
+#include "md5.h"
+#include "md5.cpp"     
 
 using namespace std;
 
 int strf(char **pbuf, const char *path);
 string tipo;
 string dato;
-string Operacion; 
+string Operacion;
+int status; 
+int client;
 int DATO;
+int puerto; // Puerto a usar
+
 void read();
 void write(string tipo, string operacion, string dato);
 void menu();
+void conexion();
 
 int main(void)
 {
 
-    const char *IpServidor = "127.0.0.1";   //Ip servidor
-    int puerto = 12345; // Puerto a usar
-    struct hostent* host = gethostbyname(IpServidor);
-    sockaddr_in sendSockAddr;
-    bzero((char*)&sendSockAddr, sizeof(sendSockAddr));
-    sendSockAddr.sin_family = AF_INET;
-    sendSockAddr.sin_addr.s_addr = inet_addr(inet_ntoa(*(struct in_addr*)*host->h_addr_list));
-    sendSockAddr.sin_port = htons(puerto);
-    int client = socket(AF_INET, SOCK_STREAM, 0);   // Socket del cliente
+    
+    
+    
+    int Opcion = 0;
+        do
+            {
+                conexion();
+                cin>>Opcion;
 
-    //Corroborar si el socket funciona
-    int status = connect(client,
+    switch (Opcion) {
+
+    case 1:
+
+        cout<< "Ingrese ip del servidor: ";
+        string ip;
+        cin>>ip;
+        const char *IpServidor =  ip.c_str();
+        cout<< "Ingrese puerto del servidor: ";
+        cin>>puerto;
+        struct hostent* host = gethostbyname(IpServidor);
+        sockaddr_in sendSockAddr;
+        bzero((char*)&sendSockAddr, sizeof(sendSockAddr));
+        sendSockAddr.sin_family = AF_INET;
+        sendSockAddr.sin_addr.s_addr = inet_addr(inet_ntoa(*(struct in_addr*)*host->h_addr_list));
+        sendSockAddr.sin_port = htons(puerto);
+        client = socket(AF_INET, SOCK_STREAM, 0);   // Socket del cliente
+        status = connect(client,
                          (sockaddr*) &sendSockAddr, sizeof(sendSockAddr));
-    if(status < 0)
-    {
-        cout<<"Error al conectar el socket"<<endl;
+
+        if(status < 0)
+            {
+                cout<<"Error al conectar el socket"<<endl;
+
+            }else{
+            cout << "Conectado al servidor" << endl;}
+  
+        break;
+
+   
 
     }
-    cout << "Conectado al servidor" << endl;
-  
+            }
+            while(status < 0);{
+
+    }
+
+    
+    
 
     while(1)
     {
-        //cout << "> ";
-        //char *pbuf; //Datos del json del cliente
-        //string mensaje; 
-        //cin >> mensaje;
-        //write(mensaje);
+      
     int Opcion = 0;
         do
             {
@@ -92,8 +123,10 @@ int main(void)
         
         break;
     case 4:
+        string pass;
         cout<<"Ingrese contraseña del server: ";
-        cin>>dato;
+        cin>>pass;
+        dato = md5(pass);
         Operacion = "verificar";
         tipo = "string";
         
@@ -102,7 +135,8 @@ int main(void)
 
 
     }
-      char *pbuf; //Datos del json del cliente
+    
+        char *pbuf; //Datos del json del cliente
         write(tipo, Operacion, dato);
         int len = strf(&pbuf, "datos.json");
         send(client, reinterpret_cast<char*>(&len), sizeof len , 0); // Enviar datos al server
@@ -127,6 +161,7 @@ int main(void)
         string sms_recv = rbuf;
         read(); // Leer json
         cout << dato;
+            
         
     }
 
@@ -168,17 +203,17 @@ void read(){
     Json::Value read_obj;   // Variable para leer json
     Json::Reader reader;
     reader.parse(ifs, read_obj);    //Leer json
-    DATO = stoi(read_obj["dato"].asString());  // Obtener valor del json
+    tipo = read_obj["tipo"].asString();
+    if(tipo != "string"){
+        DATO = stoi(read_obj["dato"].asString()); 
+    }
     dato = read_obj["dato"].asString();
     
 
    
 }
 
-/**
- *
- *  
- */
+
 
 void write(string tipo, string operacion, string dato){
     Json::Value obj;   // Dato del json a sobreescribir
@@ -195,9 +230,15 @@ void write(string tipo, string operacion, string dato){
 
 
 void menu(){
-    cout<< "1) Agregar \n"
+    cout<< "\n1) Agregar \n"
            "2) Obtener \n"
            "3) Salir \n"
            "4) Verificar conexion \n";
+
+}
+
+void conexion(){
+    cout<< "\n1) Ingresar ip y puerto: \n";
+         
 
 }
