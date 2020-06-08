@@ -10,6 +10,7 @@ public:
     void agregar_direccion(int dir);
     void Borrar_Direccion(int DIR);
     int obtener(int ID);
+    void sumarReferencia(int ID);
 
 
 };

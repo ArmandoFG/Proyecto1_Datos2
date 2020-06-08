@@ -12,6 +12,7 @@ struct Dir_VsPointer{
             struct Dir_VsPointer *sgte;  //Puntero hacia el id siguiente
             struct Dir_VsPointer *ant;//puntero hacia el anterior id
             int* Direccion = new int[10];
+            int* Referencias = new int[10];
             };
 
 typedef struct Dir_VsPointer *Tnodo;
@@ -33,6 +34,8 @@ void singleton_Garbage_Collector::agregar_direccion(int dir){
     nuevo->ant = NULL;
     *nuevo->ID = ID_Generar();  //Se le asigna el ID al nuevo dato
     *nuevo->Direccion = dir;    //Direccion de memoria del dato
+    *nuevo->Referencias += 1;
+
     if(Direcciones == NULL){
         Direcciones = nuevo;    //Revisa si es el primer dato que se ingresa
     }
@@ -63,6 +66,8 @@ void singleton_Garbage_Collector::Borrar_Direccion(int DIR){
     while(*temporal->ID != DIR){
         temporal = temporal->sgte;
     }
+    *temporal->Referencias -= 1;
+    if(*temporal->Referencias == 0){
     temporal2 = temporal->ant;
     temporal3 = temporal->sgte;
 
@@ -78,6 +83,7 @@ void singleton_Garbage_Collector::Borrar_Direccion(int DIR){
     }else{
         temporal2->sgte = temporal3;
         temporal3->ant = temporal2;
+    }
     }
 
 
@@ -103,4 +109,17 @@ int singleton_Garbage_Collector::obtener(int ID){
 }
     int resultado = *temporal->Direccion;
     return resultado;
+}
+
+void singleton_Garbage_Collector::sumarReferencia(int ID){
+    Tnodo temporal;
+    int iD = ID;
+    temporal = Direcciones;
+    int valor = *temporal->ID;
+    while(*temporal->ID != iD){
+        temporal = temporal->sgte;
+
+}
+    int resultado = *temporal->Direccion;
+    *temporal->Referencias += 1;
 }
