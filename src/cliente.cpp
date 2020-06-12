@@ -36,6 +36,12 @@ void write(string tipo, string operacion, string dato);
 void menu();
 void conexion();
 
+/**
+ * @brief main Inicializa al cliente
+ * 
+ *  
+ */
+
 int main(void)
 {
 
@@ -177,6 +183,14 @@ int main(void)
     }   
 }
 
+/**
+ * @brief strlf Metodo para obtener tamaño del json
+ * 
+ * @param pbuf Contenido del json
+ * @param path Dirección del json
+ * 
+ */
+
 int strf(char **pbuf, const char *path){
     //Metodo para analizar tamaño de los datos del json
 
@@ -198,6 +212,10 @@ int len;
 return len; // Retornar valor de json
 }
 
+/**
+ * @brief Metodo para leer json
+ * 
+ */
 void read(){
     ifstream ifs("datos.json");     // Json a leer
     Json::Value read_obj;   // Variable para leer json
@@ -213,7 +231,13 @@ void read(){
    
 }
 
-
+/**
+ * @brief Metodo para escribir en el jsom
+ * 
+ * @param tipo Tipo de dato
+ * @param operacion Tipo de operacion
+ * @param dato Dato principal
+ */
 
 void write(string tipo, string operacion, string dato){
     Json::Value obj;   // Dato del json a sobreescribir

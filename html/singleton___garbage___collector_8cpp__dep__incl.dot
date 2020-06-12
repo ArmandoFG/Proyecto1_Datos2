@@ -1,0 +1,8 @@
+digraph "/home/armando/Documentos/Proyecto1_Datos2/src/singleton_Garbage_Collector.cpp"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node3 [label="/home/armando/Documentos\l/Proyecto1_Datos2/src/singleton\l_Garbage_Collector.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="/home/armando/Documentos\l/Proyecto1_Datos2/src/servidor.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$servidor_8cpp.html"];
+}

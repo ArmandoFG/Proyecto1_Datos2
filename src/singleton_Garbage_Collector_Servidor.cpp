@@ -1,5 +1,5 @@
 #include <iostream>
-#include </home/armando/Project/src/singleton_Garbage_Collector.h>
+#include </home/armando/Project/src/singleton_Garbage_Collector_Servidor.h>
 
 
 
@@ -22,7 +22,7 @@ Tnodo Direcciones;  // Puntero que referencia a la lista enlazada
 
 int ID_Generar();   //Función para generar ID
 int ID;
-singleton_Garbage_Collector::singleton_Garbage_Collector()
+singleton_Garbage_Collector_Servidor::singleton_Garbage_Collector_Servidor()
 {
 }
 
@@ -32,7 +32,7 @@ singleton_Garbage_Collector::singleton_Garbage_Collector()
  * 
  * */
 
-void singleton_Garbage_Collector::agregar_direccion(int dir){
+void singleton_Garbage_Collector_Servidor::agregar_direccion(int dir){
     Tnodo temporal, temporal2,nuevo= new struct Dir_VsPointer;  //3 punteros auxiliares
     nuevo->sgte = NULL;
     nuevo->ant = NULL;
@@ -53,14 +53,14 @@ else{
     temporal2 = temporal->sgte;
     temporal2->ant = temporal;
 }
-
+}
 
 /**
  * @brief ID_Generar Metodo que genera una id al dato
  * 
  * */
 
-int singleton_Garbage_Collector::ID_Generar(){
+int singleton_Garbage_Collector_Servidor::ID_Generar(){
 
     ID++;
     return ID;
@@ -72,7 +72,7 @@ int singleton_Garbage_Collector::ID_Generar(){
  * @param DIR ID del dato en la lista
  * 
  * */
-void singleton_Garbage_Collector::Borrar_Direccion(int DIR){
+void singleton_Garbage_Collector_Servidor::Borrar_Direccion(int DIR){
 
      Tnodo temporal, temporal2, temporal3;
     temporal = Direcciones;
@@ -108,8 +108,8 @@ void singleton_Garbage_Collector::Borrar_Direccion(int DIR){
  * 
  * */
 
-singleton_Garbage_Collector& singleton_Garbage_Collector::Instancia(){
-    static singleton_Garbage_Collector Garbage;
+singleton_Garbage_Collector_Servidor& singleton_Garbage_Collector_Servidor::Instancia(){
+    static singleton_Garbage_Collector_Servidor Garbage;
     return Garbage;
 }
 
@@ -117,7 +117,7 @@ singleton_Garbage_Collector& singleton_Garbage_Collector::Instancia(){
  * @brief obtener Metodo para retornar un dato de la lista
  * @param ID Identificacion del dato en la lista
  * */
-int singleton_Garbage_Collector::obtener(int ID){
+int singleton_Garbage_Collector_Servidor::obtener(int ID){
     Tnodo temporal;
     int iD = ID;
     temporal = Direcciones;
@@ -134,7 +134,7 @@ int singleton_Garbage_Collector::obtener(int ID){
  * @param ID Identificacion del dato en la lista
  * */
 
-void singleton_Garbage_Collector::sumarReferencia(int ID){
+void singleton_Garbage_Collector_Servidor::sumarReferencia(int ID){
     Tnodo temporal;
     int iD = ID;
     temporal = Direcciones;

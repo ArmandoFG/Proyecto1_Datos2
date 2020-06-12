@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Proyecto 1 Datos 2: Fichero Fuente /home/armando/Documentos/Proyecto1_Datos2/src/singleton_Garbage_Collector.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Proyecto 1 Datos 2
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_f1c991283d0eb883f32dcd5c333211d6.html">Documentos</a></li><li class="navelem"><a class="el" href="dir_a48b013937b018d0ba6819fd7dba1f54.html">Proyecto1_Datos2</a></li><li class="navelem"><a class="el" href="dir_031d24004e6c9a99857a5e3ee57149e3.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">singleton_Garbage_Collector.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="singleton___garbage___collector_8h.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef SINGLETON_GARBAGE_COLLECTOR_H</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define SINGLETON_GARBAGE_COLLECTOR_H</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div><div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="classsingleton___garbage___collector.html">    4</a></span>&#160;<span class="keyword">class </span><a class="code" href="classsingleton___garbage___collector.html">singleton_Garbage_Collector</a></div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">public</span>:</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <a class="code" href="classsingleton___garbage___collector.html#ad5332dfce0e65984b9cda3f7615b5d7f">singleton_Garbage_Collector</a>();</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">static</span> <a class="code" href="classsingleton___garbage___collector.html">singleton_Garbage_Collector</a>&amp; <a class="code" href="classsingleton___garbage___collector.html#adf52437ddafa16baa143ad97951f3677">Instancia</a>();</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classsingleton___garbage___collector.html#ac0cef13628c173d1a8bc931df2f3659c">ID_Generar</a>();</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classsingleton___garbage___collector.html#ab6b57752a39f56223d1d3f246a56235e">agregar_direccion</a>(<span class="keywordtype">int</span> dir);</div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classsingleton___garbage___collector.html#ae5cf86a100c126d2926c185e883e3b97">Borrar_Direccion</a>(<span class="keywordtype">int</span> DIR);</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classsingleton___garbage___collector.html#ae3d16541ddc7a9612fcdee1bd37e2480">obtener</a>(<span class="keywordtype">int</span> <a class="code" href="singleton___garbage___collector_8cpp.html#af180e926633cde08a05ccbc3af397ee4">ID</a>);</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classsingleton___garbage___collector.html#a51e34cc9c48a245a83bc44dfef8a33f2">sumarReferencia</a>(<span class="keywordtype">int</span> ID);</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;};</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#endif // SINGLETON_GARBAGE_COLLECTOR_H</span></div><div class="ttc" id="classsingleton___garbage___collector_html_adf52437ddafa16baa143ad97951f3677"><div class="ttname"><a href="classsingleton___garbage___collector.html#adf52437ddafa16baa143ad97951f3677">singleton_Garbage_Collector::Instancia</a></div><div class="ttdeci">static singleton_Garbage_Collector &amp; Instancia()</div></div>
+<div class="ttc" id="classsingleton___garbage___collector_html_ae5cf86a100c126d2926c185e883e3b97"><div class="ttname"><a href="classsingleton___garbage___collector.html#ae5cf86a100c126d2926c185e883e3b97">singleton_Garbage_Collector::Borrar_Direccion</a></div><div class="ttdeci">void Borrar_Direccion(int DIR)</div></div>
+<div class="ttc" id="classsingleton___garbage___collector_html"><div class="ttname"><a href="classsingleton___garbage___collector.html">singleton_Garbage_Collector</a></div><div class="ttdef"><b>Definition:</b> singleton_Garbage_Collector.h:4</div></div>
+<div class="ttc" id="classsingleton___garbage___collector_html_a51e34cc9c48a245a83bc44dfef8a33f2"><div class="ttname"><a href="classsingleton___garbage___collector.html#a51e34cc9c48a245a83bc44dfef8a33f2">singleton_Garbage_Collector::sumarReferencia</a></div><div class="ttdeci">void sumarReferencia(int ID)</div></div>
+<div class="ttc" id="classsingleton___garbage___collector_html_ab6b57752a39f56223d1d3f246a56235e"><div class="ttname"><a href="classsingleton___garbage___collector.html#ab6b57752a39f56223d1d3f246a56235e">singleton_Garbage_Collector::agregar_direccion</a></div><div class="ttdeci">void agregar_direccion(int dir)</div><div class="ttdoc">agregar_direccion Metodo para ingresar un dato al garbage </div><div class="ttdef"><b>Definition:</b> singleton_Garbage_Collector.cpp:35</div></div>
+<div class="ttc" id="classsingleton___garbage___collector_html_ad5332dfce0e65984b9cda3f7615b5d7f"><div class="ttname"><a href="classsingleton___garbage___collector.html#ad5332dfce0e65984b9cda3f7615b5d7f">singleton_Garbage_Collector::singleton_Garbage_Collector</a></div><div class="ttdeci">singleton_Garbage_Collector()</div><div class="ttdef"><b>Definition:</b> singleton_Garbage_Collector.cpp:25</div></div>
+<div class="ttc" id="classsingleton___garbage___collector_html_ae3d16541ddc7a9612fcdee1bd37e2480"><div class="ttname"><a href="classsingleton___garbage___collector.html#ae3d16541ddc7a9612fcdee1bd37e2480">singleton_Garbage_Collector::obtener</a></div><div class="ttdeci">int obtener(int ID)</div></div>
+<div class="ttc" id="classsingleton___garbage___collector_html_ac0cef13628c173d1a8bc931df2f3659c"><div class="ttname"><a href="classsingleton___garbage___collector.html#ac0cef13628c173d1a8bc931df2f3659c">singleton_Garbage_Collector::ID_Generar</a></div><div class="ttdeci">int ID_Generar()</div></div>
+<div class="ttc" id="singleton___garbage___collector_8cpp_html_af180e926633cde08a05ccbc3af397ee4"><div class="ttname"><a href="singleton___garbage___collector_8cpp.html#af180e926633cde08a05ccbc3af397ee4">ID</a></div><div class="ttdeci">int ID</div><div class="ttdef"><b>Definition:</b> singleton_Garbage_Collector.cpp:24</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generado por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>

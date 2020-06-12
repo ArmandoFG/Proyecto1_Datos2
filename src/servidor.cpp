@@ -23,8 +23,6 @@
 #include "md5.cpp" 
                                        
 
-//sudo apt-get install libjsoncpp-dev
-//sudo apt-get install libjson-c-dev
 
 
 using namespace std;
@@ -43,7 +41,9 @@ bool verificar = false;
 int newSd;
 
 
-//Server side
+/**
+ * @brief main Funcionalidades del servidor
+ * */
 int main(void)
 {
     int puerto = 12345;
@@ -122,6 +122,14 @@ int main(void)
   
 
 }
+
+/**
+ * @brief strlf Metodo para obtener tamaño del json
+ * 
+ * @param rbuf Contenido del json
+ * @param path Dirección del json
+ * @return int 
+ */
 int strf(char **rbuf, const char *path){
 
     //Metodo para analizar tamaño de los datos del json
@@ -143,6 +151,9 @@ int len;
 return len; // Retornar valor del tamaño del json
 }
 
+/**
+ * @brief read Metodo para leer los datos del json
+ * */
 void read(){
     ifstream ifs("datosServer.json");   // Json a leer
     Json::Value read_obj;       // Variable para leer json
@@ -156,6 +167,14 @@ void read(){
     }
     dato = read_obj["dato"].asString();
 }
+
+
+/**
+ * @brief Metodo para escribir datos al json
+ * @param Tipo Variable que indica de que tipo es el dato recibido
+ * @param Oper Define el tipo de operacion que se requere hacer
+ * @param dato Variable con el dato a pasar
+ * */
 void write(string Tipo, string Oper, string dato){
     Json::Value obj;    // Dato del json a sobreescribir
     obj["tipo"]= Tipo; 
@@ -167,6 +186,11 @@ void write(string Tipo, string Oper, string dato){
     OS << SW.write(obj);  // Escribir nuevos datos al json
     OS.close(); // Cerrar archivo
 }
+/**
+ * @brief operacion Metodo que le indica al server que debe hacer
+ * @param operacion Indica que tipo de funcion debe hacer
+ * @param num Variable del ID del dato
+ * */
 
 void operacion(string operacion, int num){
     if(operacion == "guardar" && verificar == true){
