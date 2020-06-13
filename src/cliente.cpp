@@ -30,16 +30,17 @@ int status;
 int client;
 int DATO;
 int puerto; // Puerto a usar
-
+string infoServer;
 void read();
 void write(string tipo, string operacion, string dato);
 void menu();
 void conexion();
+void enviarInfoServer();
 
 /**
  * @brief main Inicializa al cliente
  * 
- *  
+ * @return int 
  */
 
 int main(void)
@@ -188,7 +189,7 @@ int main(void)
  * 
  * @param pbuf Contenido del json
  * @param path Dirección del json
- * 
+ * @return int 
  */
 
 int strf(char **pbuf, const char *path){
@@ -226,10 +227,14 @@ void read(){
         DATO = stoi(read_obj["dato"].asString()); 
     }
     dato = read_obj["dato"].asString();
+    infoServer = read_obj["Heap"].asString();
+    enviarInfoServer();
     
 
    
 }
+
+
 
 /**
  * @brief Metodo para escribir en el jsom
@@ -249,6 +254,35 @@ void write(string tipo, string operacion, string dato){
     OS.open("datos.json");  // Abrir archivo json
     OS << SW.write(obj);  // Escribir nuevos datos al json
     OS.close();     // Cerrar archivo
+}
+
+void enviarInfoServer(){
+    ofstream archivoDato;
+    string info ="";
+    archivoDato.open("dataClienteServer.txt", ios::out);
+    archivoDato << "";
+    archivoDato.close();
+    archivoDato.open("dataClienteServer.txt", ios::out | ios::app);
+    archivoDato << infoServer << endl;;
+    archivoDato.close();
+    
+}
+
+void read(){
+    ifstream ifs("datosServer.json");     // Json a leer
+    Json::Value read_obj;   // Variable para leer json
+    Json::Reader reader;
+    reader.parse(ifs, read_obj);    //Leer json
+    tipo = read_obj["tipo"].asString();
+    if(tipo != "string"){
+        DATO = stoi(read_obj["dato"].asString()); 
+    }
+    dato = read_obj["dato"].asString();
+    infoServer = read_obj["Heap"].asString();
+    enviarInfoServer();
+    
+
+   
 }
 
 

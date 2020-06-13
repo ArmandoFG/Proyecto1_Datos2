@@ -1,5 +1,5 @@
 {
-   "dato" : "567",
-   "operacion" : "obtener",
-   "tipo" : ""
+   "dato" : "Dato guardado",
+   "operacion" : "guardar",
+   "tipo" : "Interger"
 }

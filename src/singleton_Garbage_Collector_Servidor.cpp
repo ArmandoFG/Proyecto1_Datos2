@@ -38,7 +38,7 @@ void singleton_Garbage_Collector_Servidor::agregar_direccion(int dir){
     nuevo->ant = NULL;
     *nuevo->ID = ID_Generar();  //Se le asigna el ID al nuevo dato
     *nuevo->Direccion = dir;    //Direccion de memoria del dato
-    *nuevo->Referencias += 1;
+    *nuevo->Referencias = 1;
 
     if(Direcciones == NULL){
         Direcciones = nuevo;    //Revisa si es el primer dato que se ingresa
@@ -146,3 +146,36 @@ void singleton_Garbage_Collector_Servidor::sumarReferencia(int ID){
     int resultado = *temporal->Direccion;
     *temporal->Referencias += 1;
 }
+ void singleton_Garbage_Collector_Servidor::enviarInfo(){
+    ofstream archivoDato;
+    string info ="";
+    archivoDato.open("dataServer.txt", ios::out);
+    archivoDato << "";
+    archivoDato.close();
+    if(Direcciones != NULL){
+        Tnodo temporal;
+        temporal = Direcciones; 
+        archivoDato.open("dataServer.txt", ios::out | ios::app);
+        archivoDato << buscar() << endl;
+        archivoDato.close();
+    }
+}
+string singleton_Garbage_Collector_Servidor::buscar(){
+    Tnodo temporal;
+    temporal = Direcciones;
+    string data;
+   
+    while(temporal != NULL){
+        data= data + "<tr><td>"+to_string(*temporal->Direccion)+"</td>"+"<td>"+to_string(*temporal->Referencias)+"</td>"+"<td>"+"Servidor"+"</td> \n";
+        if(temporal->sgte == NULL){
+            temporal = NULL;
+        }else{
+            temporal = temporal->sgte;
+        }
+        
+    }
+
+    return data;
+}
+
+

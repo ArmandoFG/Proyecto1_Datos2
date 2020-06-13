@@ -11,7 +11,8 @@ public:
     void Borrar_Direccion(int DIR);
     int obtener(int ID);
     void sumarReferencia(int ID);
-
+    string buscar();
+    void enviarInfo();
 
 };
 

@@ -16,13 +16,15 @@
 #include <fstream>
 #include <jsoncpp/json/json.h>
 #include <jsoncpp/json/writer.h> 
-#include "singleton_Garbage_Collector.h"
-#include "singleton_Garbage_Collector.cpp"                                    
+#include "singleton_Garbage_Collector_Servidor.h"
+#include "singleton_Garbage_Collector_Servidor.cpp"                                    
 #include <sstream>
 #include "md5.h"
 #include "md5.cpp" 
                                        
 
+//sudo apt-get install libjsoncpp-dev
+//sudo apt-get install libjson-c-dev
 
 
 using namespace std;
@@ -32,17 +34,18 @@ string tipo;
 int DATO;
 string Operacion; 
 string dato;
-singleton_Garbage_Collector* garbage = &singleton_Garbage_Collector().Instancia();
+singleton_Garbage_Collector_Servidor* garbage = &singleton_Garbage_Collector_Servidor().Instancia();
 void read();
 void write(string Tipo, string Oper, string dato);
 void operacion(string operacion, int dato);
 string password = md5("barriga");
 bool verificar = false;
 int newSd;
+string leer_garbage();
 
 
 /**
- * @brief main Funcionalidades del servidor
+ * @bried main Funcionalidades del servidor
  * */
 int main(void)
 {
@@ -105,12 +108,12 @@ int main(void)
      delete [] pbuf;
      read();
      operacion(Operacion, DATO);
+     garbage->enviarInfo();
      write(tipo, dato, dato);
      char *rbuf;
      int len2 = strf(&rbuf, "datosServer.json");
      send(newSd, reinterpret_cast<char*>(&len2), sizeof len2 , 0);
      send(newSd, rbuf, len2, 0);
-     
     
 
     }
@@ -180,6 +183,7 @@ void write(string Tipo, string Oper, string dato){
     obj["tipo"]= Tipo; 
     obj["operacion"]= Oper;
     obj["dato"]= dato;
+    obj["Heap"]= leer_garbage();
     Json::StyledWriter SW ;
     ofstream OS;
     OS.open("datosServer.json"); // Abrir archivo json
@@ -223,7 +227,13 @@ void operacion(string operacion, int num){
     }
 }
 
+string leer_garbage(){
+    string data;
+    ifstream fe("dataServer.txt");
+    while (!fe.eof()) {
+        fe >> data;
+    }
+    fe.close();
+    return data;
 
-
-
-
+}
