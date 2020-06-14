@@ -10,7 +10,13 @@ import * as path from 'path';
 var datos = (callback:any) => { } ;
 var datosServer = (callbacl:any) => {}; 
 var fs = require("fs");
+var json = require("fs");
+const jsonFile = "/home/armando/Project/src/IniciarSeccion.json";
 const folderpath = "/home/armando/Project/src";
+var dato1 = "";
+var dato2 = "";
+var dato3 = "";
+var dato4 = "";
 export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand('catCoding.start', () => {
@@ -118,6 +124,7 @@ class CatCodingPanel {
 				switch (message.command) {
 					case 'alert':
 						vscode.window.showErrorMessage(message.text);
+						json.writeFileSync(path.join(folderpath,'IniciarSeccion.json'), message.text);
 						return;
 				}
 			},
@@ -260,7 +267,7 @@ class CatCodingPanel {
 			</div>
 					<div class="col-md-4">
 		</div>
-					<textarea id="textarea3"></textarea>
+					<textarea id="textarea2"></textarea>
 				</div>
 				<div id="row4" class="row">
 					<div class="col-md-4">
@@ -286,7 +293,7 @@ class CatCodingPanel {
 					<div class="col-md-4">
 					</div>
 					<div class="col-md-4">
-					<button onclick="conectarServidor()">Conectar</button>
+					<button id="boton" onclick="conectarServidor()">Conectar</button>
 				</div>
 					<div class="col-md-4">
 					</div>
@@ -311,7 +318,41 @@ class CatCodingPanel {
 			</tr>
 			"${datosServer}"	
 		</table>
+		<script>
+        window.onload = function(){
+            document.getElementById("boton").onclick=getDatos;
+		}
+		
+        function getDatos(){
+			const vscode = acquireVsCodeApi();
+			
+            var ids =["textarea1","textarea2","textarea3","textarea4"];
+            for(var i=0;i<4;i++){ 
+				if (i == 0){
+                    dato1 = document.getElementById(ids[i]).value;
+                }else if( i == 1){
+                    dato2 = document.getElementById(ids[i]).value;
+                }else if(i == 2){
+                    dato3 = document.getElementById(ids[i]).value;
+                }else if(i == 3){
+                    dato4 = document.getElementById(ids[i]).value;
+                }
+			}
+			var objectToSave = {"ip" : dato1,
+			"puerto" : dato3,
+			"contrasena" : dato2,
+			"Nombre" : dato4};
 
+			var jsonData = JSON.stringify(objectToSave);
+			
+			
+            vscode.postMessage({
+				command: 'alert',
+				text: jsonData
+			})
+		}
+		
+    </script>
 		
 		
 			</body>
@@ -325,8 +366,11 @@ function actualizar(){
 		var dataS = fs.readFileSync(path.join(folderpath,'dataClienteServer.txt'), 'utf8');
 		datos = data;
 		datosServer = dataS;
+		
 	} catch(e) {
 		console.log('Error:', e.stack);
 	}
+
 	
 }
+

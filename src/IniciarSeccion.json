@@ -1,6 +1,5 @@
 {
-    "ip" : "",
-    "puerto" : "",
-    "contrasena" : "",
-    "Nombre" : ""
- }
+   "contrasena" : "vacio",
+   "ip" : "vacio",
+   "puerto" : "0"
+}
