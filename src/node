@@ -1,0 +1,31 @@
+#include <iostream>
+using namespace std;
+class node{
+private:
+    string linea;
+    node *next;
+
+
+public:
+    node(){
+
+    }
+    const string &getLinea() const {
+        return linea;
+    }
+
+    void setLinea(const string &linea) {
+        node::linea = linea;
+    }
+
+    node *getNext() const {
+        return next;
+    }
+
+    void setNext(node *next) {
+        node::next = next;
+    }
+
+
+
+};

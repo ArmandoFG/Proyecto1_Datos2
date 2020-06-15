@@ -1,5 +1,5 @@
 #include <iostream>
-#include </home/armando/Project/src/singleton_Garbage_Collector.h>
+#include </home/jonathan/Escritorio/Proyecto/Proyecto1_Datos2/src/singleton_Garbage_Collector.h>
 
 
 

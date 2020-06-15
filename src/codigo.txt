@@ -1,0 +1,4 @@
+VSPointer ptr =1
+VSPointer ptr2 =2
+&ptr2
+

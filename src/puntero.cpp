@@ -13,6 +13,7 @@ public:
     int *num;
     int data;
     int Id;
+      string nombre;
     /**
      *
      * @param x
